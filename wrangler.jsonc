@@ -1,27 +1,36 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "jmichaelbrowning",
-	"main": "./src/worker.ts",
-	"compatibility_date": "2026-02-24",
-	"compatibility_flags": ["nodejs_compat"],
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "jmb-database",
-			// Run `wrangler d1 create my-emdash-site` and paste the real ID here for deploy
-			"database_id": "c53b1e79-63d5-46e9-9047-79ead0694e23",
-		},
-	],
-	"r2_buckets": [
-		{
-			"binding": "MEDIA",
-			"bucket_name": "jmb-media","preview_bucket_name": "jmb-media",
-		},
-	],
-	// Worker Loader for plugin sandboxing
-	"worker_loaders": [
-		{
-			"binding": "LOADER",
-		},
-	],
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jmichaelbrowning",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-02-24",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "routes": [
+    {
+      "pattern": "jmichaelbrowning.com",
+      "custom_domain": true
+    }
+  ],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "jmb-database",
+      "database_id": "c53b1e79-63d5-46e9-9047-79ead0694e23"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "jmb-media",
+      "preview_bucket_name": "jmb-media"
+    }
+  ],
+
+  "worker_loaders": [
+    {
+      "binding": "LOADER"
+    }
+  ]
 }
