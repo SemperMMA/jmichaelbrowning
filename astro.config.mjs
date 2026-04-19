@@ -1,3 +1,4 @@
+import path from "node:path";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
@@ -24,6 +25,19 @@ export default defineConfig({
 			marketplace: "https://marketplace.emdashcms.com",
 		}),
 	],
+	vite: {
+		resolve: {
+			alias: {
+				"@": path.resolve("./src"),
+				"@components": path.resolve("./src/components"),
+				"@layouts": path.resolve("./src/layouts"),
+				"@content": path.resolve("./src/content"),
+				"@lib": path.resolve("./src/lib"),
+				"@styles": path.resolve("./src/styles"),
+				"@utils": path.resolve("./src/utils"),
+			},
+		},
+	},
 	fonts: [
 		{
 			provider: fontProviders.google(),
