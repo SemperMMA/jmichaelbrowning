@@ -1,0 +1,20 @@
+---
+import { SITE } from '@lib/site';
+---
+<header id="site-header" class="site-header">
+  <a href="/" class="brand" aria-label={`${SITE.title} — home`}>
+    <span class="brand-mark">JM</span>
+    <span>{SITE.title}</span>
+  </a>
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu-overlay">
+    <span id="menu-label">Menu</span>
+    <span class="menu-bars" aria-hidden="true"></span>
+  </button>
+</header>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

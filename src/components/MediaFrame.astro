@@ -1,0 +1,10 @@
+---
+const { variant = 'default', label = 'placeholder' } = Astro.props as {
+  variant?: 'default' | 'wide' | 'tall';
+  label?: string;
+};
+---
+<div class={`media-frame ${variant === 'wide' ? 'wide' : variant === 'tall' ? 'tall' : ''}`}>
+  <div class="placeholder-stripes"></div>
+  <span class="label">{label}</span>
+</div>

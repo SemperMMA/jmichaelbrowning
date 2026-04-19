@@ -1,0 +1,48 @@
+---
+import { NAV, SIDE_NAV, SITE } from '@lib/site';
+---
+<nav id="menu-overlay" class="menu-overlay" aria-hidden="true">
+  <div class="menu-grid">
+    <ul class="menu-list" role="list">
+      {NAV.map(p => (
+        <li><a href={p.href}><span>{p.label}</span><span class="num">{p.num}</span></a></li>
+      ))}
+    </ul>
+    <div class="menu-side">
+      <h4>Elsewhere</h4>
+      <ul>
+        {SIDE_NAV.map(p => <li><a href={p.href}>{p.label}</a></li>)}
+      </ul>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        <li><a href={SITE.social.linkedin}>LinkedIn</a></li>
+        <li><a href={SITE.social.github}>GitHub</a></li>
+        <li><a href={SITE.social.substack}>Substack</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="menu-foot">
+    <span>{SITE.domain}</span>
+    <span>Est. 2026</span>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('menu-btn')!;
+  const overlay = document.getElementById('menu-overlay')!;
+  const label = document.getElementById('menu-label')!;
+  let open = false;
+  function set(o: boolean) {
+    open = o;
+    overlay.classList.toggle('open', o);
+    btn.classList.toggle('menu-open', o);
+    btn.setAttribute('aria-expanded', String(o));
+    overlay.setAttribute('aria-hidden', String(!o));
+    label.textContent = o ? 'Close' : 'Menu';
+    document.body.style.overflow = o ? 'hidden' : '';
+  }
+  btn.addEventListener('click', () => set(!open));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) set(false); });
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));
+</script>
