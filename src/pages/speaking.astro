@@ -1,0 +1,28 @@
+---
+import Page from '@layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const events = (await getCollection('speaking'))
+  .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date));
+---
+<Page
+  title="Selected talks, panels, and the occasional record."
+  eyebrow="Speaking · Media · Public record"
+  lede="I speak in public a few times a year — usually on modernization, communications, or the operating discipline that connects them."
+>
+  <section class="section">
+    <div class="wrap">
+      <div class="reveal-stagger">
+        {events.map((e, i) => (
+          <div class="work-row" style="cursor: default;">
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="work-title">{e.data.title}</span>
+            <span class="meta">{e.data.format} · {e.data.venue}</span>
+            <span class="meta">{new Date(e.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+            <span class="arrow">↗</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Page>

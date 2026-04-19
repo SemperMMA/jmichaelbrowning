@@ -1,0 +1,15 @@
+---
+import Essay from '@layouts/Essay.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const all = await getCollection('writing', ({ data }) => !data.draft);
+  return all.map(entry => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<Essay frontmatter={entry.data}>
+  <Content />
+</Essay>

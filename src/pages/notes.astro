@@ -1,0 +1,29 @@
+---
+import Page from '@layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.number - a.data.number);
+---
+<Page
+  title="Working in the open."
+  eyebrow="Notes · short, frequent, unpolished"
+  lede="Short observations, drafts, things I'm chewing on. Not essays."
+>
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="reveal-stagger">
+        {notes.map(async n => {
+          const { Content } = await n.render();
+          return (
+            <article style="padding: 32px 0; border-bottom: 1px solid var(--hairline);">
+              <span class="mono">№ {String(n.data.number).padStart(3, '0')} · {new Date(n.data.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              <h3 class="title" style="margin: 14px 0 12px;">{n.data.title}</h3>
+              <div class="text-mute"><Content /></div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Page>

@@ -1,0 +1,28 @@
+---
+import Page from '@layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const work = (await getCollection('work', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Page
+  title="Selected initiatives, in the order that matters."
+  eyebrow="Work · 2018 → present"
+  lede="A working catalog of engagements — sorted by what they taught me, not chronology. Each one shipped. Each one had a name attached to it."
+>
+  <section class="section">
+    <div class="wrap">
+      <div class="reveal-stagger">
+        {work.map((p, i) => (
+          <a class="work-row" href={`/work/${p.slug}`}>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="work-title">{p.data.title}</span>
+            <span class="meta">{p.data.category}</span>
+            <span class="meta">{p.data.year}</span>
+            <span class="arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Page>

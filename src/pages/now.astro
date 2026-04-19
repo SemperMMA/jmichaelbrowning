@@ -1,0 +1,29 @@
+---
+import Page from '@layouts/Page.astro';
+const updated = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+---
+<Page
+  title="What I'm doing this season."
+  eyebrow={`/ now · updated ${updated}`}
+  lede="A snapshot of where my attention is — work, reading, projects in motion. Honest, current, occasionally outdated."
+>
+  <section class="section">
+    <div class="wrap-narrow reveal-stagger">
+      <div style="padding: 28px 0; border-bottom: 1px solid var(--hairline);">
+        <span class="mono">Working on</span>
+        <h3 class="title" style="margin: 14px 0 12px;">Two engagements, one quiet research thread.</h3>
+        <p class="text-mute">Federal modernization roadmap (year two), standing comms operation for a national nonprofit, and long-running research on coordination failure inside large organizations.</p>
+      </div>
+      <div style="padding: 28px 0; border-bottom: 1px solid var(--hairline);">
+        <span class="mono">Writing</span>
+        <h3 class="title" style="margin: 14px 0 12px;">A long essay on durability.</h3>
+        <p class="text-mute">Working title: <em>What survives the next administration.</em></p>
+      </div>
+      <div style="padding: 28px 0;">
+        <span class="mono">Not doing</span>
+        <h3 class="title" style="margin: 14px 0 12px;">New advisory roles. New podcast appearances.</h3>
+        <p class="text-mute">Both will return at some point. For now, the focus is on the engagements I'm in.</p>
+      </div>
+    </div>
+  </section>
+</Page>

@@ -1,0 +1,20 @@
+---
+import Base from './Base.astro';
+import Atmosphere from '@components/Atmosphere.astro';
+
+const { title, description, eyebrow, lede } = Astro.props;
+---
+<Base {title} {description}>
+  <section class="section-lg relative grain" style="padding-top: 200px;">
+    <Atmosphere />
+    <div class="wrap relative z-3">
+      <div class="reveal-stagger" style="max-width: 1100px;">
+        {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+        <h1 class="display-lg" style="margin: 28px 0 28px;">{title}</h1>
+        {lede && <p class="lede" style="max-width: 60ch;">{lede}</p>}
+      </div>
+    </div>
+  </section>
+  <hr class="hr" />
+  <slot />
+</Base>
