@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -14,8 +14,13 @@ export default defineConfig({
   // using: export const prerender = true; at the top of any .astro file.
   output: 'server',
 
+  image: {
+    service: passthroughImageService()
+  },
+
   adapter: cloudflare({
-    platformProxy: { enabled: true }
+    platformProxy: { enabled: true },
+    imageService: 'passthrough'
   }),
 
   integrations: [
