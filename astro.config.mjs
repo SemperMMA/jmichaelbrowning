@@ -8,6 +8,12 @@ export default defineConfig({
   site: 'https://jmichaelbrowning.com',
   output: 'server',
 
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/noop'
+    }
+  },
+
   adapter: cloudflare(),
 
   integrations: [
