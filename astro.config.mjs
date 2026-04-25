@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import emdash from 'emdash/astro';
-import { d1, r2 } from '@emdash-cms/cloudflare';
+import { d1 } from 'emdash/db';
 
 export default defineConfig({
   site: 'https://jmichaelbrowning.com',
@@ -12,8 +12,7 @@ export default defineConfig({
 
   integrations: [
     emdash({
-      database: d1(),
-      storage: r2()
+      database: d1()
     })
   ]
 });
