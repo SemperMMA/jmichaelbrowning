@@ -21,8 +21,8 @@ export default defineConfig({
 
   integrations: [
     emdash({
-      database: d1(),
-      storage: r2(),
+      database: d1({ binding: 'DB' }),
+      storage: r2({ binding: 'MEDIA' }),
       // The D1 binding name must match wrangler.jsonc [[d1_databases]] → binding
       databaseBinding: 'DB',
       // The R2 binding name must match wrangler.jsonc [[r2_buckets]] → binding
