@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import emdash from 'emdash/astro';
-import { d1 } from 'emdash/db';
+import { d1, r2 } from '@emdash-cms/cloudflare';
 
 export default defineConfig({
   site: 'https://jmichaelbrowning.com',
@@ -22,6 +22,7 @@ export default defineConfig({
   integrations: [
     emdash({
       database: d1(),
+      storage: r2(),
       // The D1 binding name must match wrangler.jsonc [[d1_databases]] → binding
       databaseBinding: 'DB',
       // The R2 binding name must match wrangler.jsonc [[r2_buckets]] → binding
