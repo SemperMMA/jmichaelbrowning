@@ -1,27 +1,77 @@
 ---
-import Page from '@layouts/Page.astro';
-import { SITE } from '@lib/site';
+// src/pages/contact.astro
+// export const prerender = true;
+import Page from '../layouts/Page.astro';
+import { SITE } from '../lib/site';
 ---
 <Page
   title="If the mission is real, I want to hear about it."
   eyebrow="Contact · let's talk"
   lede="The fastest path to a real conversation is a short, specific email — what you're trying to ship, by when, and what's currently in the way."
 >
-  <section class="section">
+  <section class="section" data-screen-label="09 Contact">
     <div class="wrap">
-      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px;">
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;">
         <div class="reveal">
           <h2 class="headline mb-md">Send a brief.</h2>
-          <p class="text-mute mb-md">For Cloudflare Pages, wire this form to a Worker route, Pages Function, or third-party endpoint (e.g. Formspree).</p>
-          <a href={`mailto:${SITE.email}`} class="btn btn-primary">{SITE.email} →</a>
+          <!--
+            Wire this form to a Cloudflare Pages Function at /functions/contact.ts,
+            or a third-party endpoint (Formspree, Resend, etc.).
+            See scripts/contact-function.example.ts for a starter Worker function.
+          -->
+          <form
+            id="contact-form"
+            method="POST"
+            action="/api/contact"
+            style="display: grid; gap: 22px;"
+          >
+            <div>
+              <label class="mono" style="display:block; margin-bottom:8px; color:var(--text-dim); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;">Your name *</label>
+              <input name="name" required style="width:100%; padding:14px 16px; background:var(--surface); border:1px solid var(--hairline); border-radius:12px; color:var(--text); font-family:inherit; font-size:16px;" />
+            </div>
+            <div>
+              <label class="mono" style="display:block; margin-bottom:8px; color:var(--text-dim); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;">Email *</label>
+              <input name="email" type="email" required style="width:100%; padding:14px 16px; background:var(--surface); border:1px solid var(--hairline); border-radius:12px; color:var(--text); font-family:inherit; font-size:16px;" />
+            </div>
+            <div>
+              <label class="mono" style="display:block; margin-bottom:8px; color:var(--text-dim); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;">Organization</label>
+              <input name="org" style="width:100%; padding:14px 16px; background:var(--surface); border:1px solid var(--hairline); border-radius:12px; color:var(--text); font-family:inherit; font-size:16px;" />
+            </div>
+            <div>
+              <label class="mono" style="display:block; margin-bottom:8px; color:var(--text-dim); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;">The brief *</label>
+              <textarea name="brief" required rows="6" placeholder="What you're trying to ship, by when, and what's in the way." style="width:100%; padding:14px 16px; background:var(--surface); border:1px solid var(--hairline); border-radius:12px; color:var(--text); font-family:inherit; font-size:16px; resize:vertical;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="justify-self:start;">Send brief →</button>
+          </form>
         </div>
-        <aside class="reveal">
-          <span class="mono">Best for</span>
-          <ul style="list-style: none; padding: 0; margin: 12px 0 24px; color: var(--text-mute);">
-            <li style="padding: 4px 0;">— Modernization & strategy engagements</li>
-            <li style="padding: 4px 0;">— Standing communications operations</li>
-            <li style="padding: 4px 0;">— Executive briefings & advisory</li>
-          </ul>
+
+        <aside class="reveal" style="display:flex; flex-direction:column; gap:28px;">
+          <div>
+            <span class="mono" style="color:var(--text-dim);">Direct</span>
+            <h3 class="title" style="margin:8px 0 6px;">
+              <a href={`mailto:${SITE.email}`} style="border-bottom:1px solid var(--hairline);">{SITE.email}</a>
+            </h3>
+            <p class="text-mute" style="margin:0; font-size:15px;">Replies within two business days.</p>
+          </div>
+          <hr class="hr" />
+          <div>
+            <span class="mono" style="color:var(--text-dim);">Best for</span>
+            <ul style="list-style:none; padding:0; margin:12px 0 0; color:var(--text-mute); font-size:15px;">
+              <li style="padding:4px 0;">— Modernization &amp; strategy engagements</li>
+              <li style="padding:4px 0;">— Standing communications operations</li>
+              <li style="padding:4px 0;">— Executive briefings &amp; advisory</li>
+              <li style="padding:4px 0;">— Selected speaking</li>
+            </ul>
+          </div>
+          <hr class="hr" />
+          <div>
+            <span class="mono" style="color:var(--text-dim);">Elsewhere</span>
+            <div class="flex gap-sm mt-sm" style="flex-wrap:wrap;">
+              <a href={SITE.social.linkedin} rel="noopener noreferrer" class="btn">LinkedIn</a>
+              <a href={SITE.social.github}   rel="noopener noreferrer" class="btn">GitHub</a>
+              <a href={SITE.social.substack} rel="noopener noreferrer" class="btn">Substack</a>
+            </div>
+          </div>
         </aside>
       </div>
     </div>

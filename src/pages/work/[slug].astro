@@ -1,15 +1,36 @@
 ---
-import Project from '@layouts/Project.astro';
-import { getCollection } from 'astro:content';
+// src/pages/work/[slug].astro
+// SSR — fetches from D1 at request time, no static prerendering.
+import Project from '../../layouts/Project.astro';
+import { getEmDashEntry } from 'emdash';
 
-export async function getStaticPaths() {
-  const all = await getCollection('work', ({ data }) => !data.draft);
-  return all.map(entry => ({ params: { slug: entry.slug }, props: { entry } }));
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/work');
+
+let entry;
+try {
+  entry = await getEmDashEntry('work', slug);
+} catch {
+  return Astro.redirect('/work');
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+if (!entry) return Astro.redirect('/404');
+
+const {
+  title, summary, category, role, stack = [],
+  year, duration, outcomes = [], body,
+} = entry.data;
 ---
-<Project frontmatter={entry.data}>
-  <Content />
+<Project
+  {title}
+  {summary}
+  {category}
+  {role}
+  stack={Array.isArray(stack) ? stack : stack?.split(',').map((s: string) => s.trim())}
+  {year}
+  {duration}
+  outcomes={outcomes}
+>
+  <!-- Body is stored as Portable Text / HTML in EmDash -->
+  <Fragment set:html={body ?? '<p>No content yet.</p>'} />
 </Project>

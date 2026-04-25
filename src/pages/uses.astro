@@ -1,17 +1,77 @@
 ---
-import Page from '@layouts/Page.astro';
+// src/pages/uses.astro
+// export const prerender = true;
+import Page from '../layouts/Page.astro';
 ---
 <Page
   title="The kit I work from."
   eyebrow="Uses · stack · operating kit"
   lede="Tools I use daily. Updated when something changes — not just for the sake of having something new on the page."
 >
-  <section class="section">
+  <section class="section" data-screen-label="11 Uses">
     <div class="wrap">
-      <div class="grid-3">
-        <div><span class="mono">Hardware</span><ul style="margin-top: 18px; list-style: none; padding: 0;"><li>14" laptop</li><li>27" external display</li><li>Mechanical keyboard</li></ul></div>
-        <div><span class="mono">Writing</span><ul style="margin-top: 18px; list-style: none; padding: 0;"><li>iA Writer</li><li>Obsidian</li><li>Tot</li></ul></div>
-        <div><span class="mono">Building</span><ul style="margin-top: 18px; list-style: none; padding: 0;"><li>VS Code</li><li>Astro · Cloudflare</li><li>Figma · GitHub</li></ul></div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--hairline);">
+
+        <div style="padding: 36px 28px 36px 0; border-bottom: 1px solid var(--hairline); border-right: 1px solid var(--hairline);">
+          <span class="mono">Hardware</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">14" laptop · daily driver</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">External 27" display · calibrated</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Mechanical keyboard · split</li>
+            <li style="padding: 8px 0;">Field notebook · A5, dot grid</li>
+          </ul>
+        </div>
+
+        <div style="padding: 36px 28px; border-bottom: 1px solid var(--hairline); border-right: 1px solid var(--hairline);">
+          <span class="mono">Writing &amp; thinking</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">iA Writer · drafts</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Obsidian · notes &amp; archive</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Tot · scratch buffer</li>
+            <li style="padding: 8px 0;">Reader · long-form intake</li>
+          </ul>
+        </div>
+
+        <div style="padding: 36px 0 36px 28px; border-bottom: 1px solid var(--hairline);">
+          <span class="mono">Building</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">VS Code · default</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Astro · this site</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Cloudflare · hosting</li>
+            <li style="padding: 8px 0;">GitHub · everything else</li>
+          </ul>
+        </div>
+
+        <div style="padding: 36px 28px 36px 0; border-right: 1px solid var(--hairline);">
+          <span class="mono">Operations</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Things 3 · personal</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Linear · client work</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Cal.com · scheduling</li>
+            <li style="padding: 8px 0;">Fastmail · email</li>
+          </ul>
+        </div>
+
+        <div style="padding: 36px 28px; border-right: 1px solid var(--hairline);">
+          <span class="mono">Reading</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Federal Times · daily</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">The Atlantic · longform</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Stratechery · weekly</li>
+            <li style="padding: 8px 0;">Construction Physics · curiosity</li>
+          </ul>
+        </div>
+
+        <div style="padding: 36px 0 36px 28px;">
+          <span class="mono">Carry</span>
+          <ul style="list-style: none; padding: 0; margin: 18px 0 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Bellroy bag · two compartments</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">YubiKey · always</li>
+            <li style="padding: 8px 0; border-bottom: 1px solid var(--hairline);">Pen, two of them</li>
+            <li style="padding: 8px 0;">Coffee, very dark</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </section>

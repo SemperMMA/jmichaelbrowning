@@ -6,12 +6,11 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@content/*": ["src/content/*"],
       "@lib/*": ["src/lib/*"],
       "@styles/*": ["src/styles/*"]
     },
     "jsx": "preserve",
-    "types": ["astro/client"]
+    "types": ["astro/client", "@cloudflare/workers-types"]
   },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "node_modules", ".wrangler"]

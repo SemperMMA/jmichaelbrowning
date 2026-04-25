@@ -1,5 +1,5 @@
 ---
-import { SITE, NAV } from '@lib/site';
+import { NAV, SITE } from '../lib/site';
 const year = new Date().getFullYear();
 ---
 <footer id="site-footer" class="site-footer">
@@ -8,9 +8,10 @@ const year = new Date().getFullYear();
       <div>
         <h5>{SITE.domain}</h5>
         <p class="text-mute" style="max-width: 38ch; line-height: 1.55; font-size: 15px; margin: 0 0 18px;">
-          A working archive of strategy, systems, and writing from {SITE.author}. Built deliberately. Shipped openly.
+          A working archive of strategy, systems, and writing from {SITE.author}.
+          Built deliberately. Shipped openly.
         </p>
-        <a href={`mailto:${SITE.email}`} class="btn">Get in touch <span aria-hidden="true">→</span></a>
+        <a href={`mailto:${SITE.email}`} class="btn">Get in touch →</a>
       </div>
       <div>
         <h5>Site</h5>
@@ -30,9 +31,9 @@ const year = new Date().getFullYear();
       <div>
         <h5>Elsewhere</h5>
         <ul>
-          <li><a href={SITE.social.linkedin}>LinkedIn ↗</a></li>
-          <li><a href={SITE.social.github}>GitHub ↗</a></li>
-          <li><a href={SITE.social.substack}>Substack ↗</a></li>
+          <li><a href={SITE.social.linkedin} rel="noopener noreferrer">LinkedIn ↗</a></li>
+          <li><a href={SITE.social.github}   rel="noopener noreferrer">GitHub ↗</a></li>
+          <li><a href={SITE.social.substack} rel="noopener noreferrer">Substack ↗</a></li>
         </ul>
       </div>
     </div>
@@ -40,7 +41,7 @@ const year = new Date().getFullYear();
       <span>© {year} {SITE.author} · All rights reserved</span>
       <span>v. 4.0</span>
     </div>
-    <div class="footer-bottom" style="border-top:0; padding-top: 24px;">
+    <div class="footer-bottom" style="border-top: 0; padding-top: 24px;">
       <span class="colossal">Browning.</span>
     </div>
   </div>

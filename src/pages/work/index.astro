@@ -1,19 +1,22 @@
 ---
-import Page from '@layouts/Page.astro';
-import { getCollection } from 'astro:content';
+// src/pages/work/index.astro
+import Page from '../../layouts/Page.astro';
+import { getEmDashCollection } from 'emdash';
 
-const work = (await getCollection('work', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const { entries: work } = await getEmDashCollection('work', {
+  orderBy: [{ field: 'order', direction: 'asc' }],
+  filter: { status: 'published' },
+});
 ---
 <Page
   title="Selected initiatives, in the order that matters."
   eyebrow="Work · 2018 → present"
-  lede="A working catalog of engagements — sorted by what they taught me, not chronology. Each one shipped. Each one had a name attached to it."
+  lede="A working catalog of engagements — sorted by what they taught me, not chronology. Each one shipped."
 >
-  <section class="section">
+  <section class="section" data-screen-label="03 Work — Index">
     <div class="wrap">
       <div class="reveal-stagger">
-        {work.map((p, i) => (
+        {work.length > 0 ? work.map((p, i) => (
           <a class="work-row" href={`/work/${p.slug}`}>
             <span class="num">{String(i + 1).padStart(2, '0')}</span>
             <span class="work-title">{p.data.title}</span>
@@ -21,7 +24,11 @@ const work = (await getCollection('work', ({ data }) => !data.draft))
             <span class="meta">{p.data.year}</span>
             <span class="arrow">→</span>
           </a>
-        ))}
+        )) : (
+          <p class="text-mute" style="padding: 48px 0;">
+            No projects yet. Add them at <a href="/_emdash/admin">/_emdash/admin</a> → Work.
+          </p>
+        )}
       </div>
     </div>
   </section>

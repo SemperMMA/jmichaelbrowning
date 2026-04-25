@@ -1,27 +1,51 @@
 ---
-import Page from '@layouts/Page.astro';
-import { getCollection } from 'astro:content';
+// src/pages/speaking.astro
+import Page from '../layouts/Page.astro';
+import { getEmDashCollection } from 'emdash';
 
-const events = (await getCollection('speaking'))
-  .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date));
+const { entries: events } = await getEmDashCollection('speaking', {
+  orderBy: [{ field: 'event_date', direction: 'desc' }],
+  filter: { status: 'published' },
+});
 ---
 <Page
   title="Selected talks, panels, and the occasional record."
   eyebrow="Speaking · Media · Public record"
-  lede="I speak in public a few times a year — usually on modernization, communications, or the operating discipline that connects them."
+  lede="I speak in public a few times a year — usually on modernization, communications, or the discipline that connects them."
 >
-  <section class="section">
+  <section class="section" data-screen-label="10 Speaking">
     <div class="wrap">
       <div class="reveal-stagger">
-        {events.map((e, i) => (
+        {events.length > 0 ? events.map((e, i) => (
           <div class="work-row" style="cursor: default;">
             <span class="num">{String(i + 1).padStart(2, '0')}</span>
             <span class="work-title">{e.data.title}</span>
             <span class="meta">{e.data.format} · {e.data.venue}</span>
-            <span class="meta">{new Date(e.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+            <span class="meta">
+              {e.data.event_date
+                ? new Date(e.data.event_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                : ''}
+            </span>
             <span class="arrow">↗</span>
           </div>
-        ))}
+        )) : (
+          <p class="text-mute" style="padding: 48px 0;">
+            No speaking events yet. Add them at <a href="/_emdash/admin">/_emdash/admin</a> → Speaking.
+          </p>
+        )}
+      </div>
+
+      <hr class="hr" style="margin: 80px 0;" />
+
+      <div class="grid-2 reveal-stagger">
+        <div>
+          <span class="eyebrow">For organizers</span>
+          <p class="text-mute" style="margin: 24px 0 18px;">
+            I accept a small number of speaking invitations each year, prioritizing mission-driven
+            audiences and substantive formats. I'll need a topic, format, audience description, and date.
+          </p>
+          <a href="mailto:speaking@jmichaelbrowning.com" class="btn">speaking@jmichaelbrowning.com</a>
+        </div>
       </div>
     </div>
   </section>

@@ -1,0 +1,2 @@
+/blog/*  /writing/:splat  301
+/journal/*  /writing/:splat  301

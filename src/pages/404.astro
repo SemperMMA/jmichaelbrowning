@@ -1,33 +1,21 @@
 ---
-import Base from "../layouts/Base.astro";
+// src/pages/404.astro
+import Base from '../layouts/Base.astro';
+import Atmosphere from '../components/Atmosphere.astro';
 ---
-
-<Base title="Page not found">
-	<div class="not-found">
-		<h1>404</h1>
-		<p>The page you're looking for doesn't exist.</p>
-		<a href="/">Go back home</a>
-	</div>
+<Base title="404 — Page not found" noindex>
+  <section style="min-height: 100vh; display: grid; place-items: center; padding: 160px 24px 80px; position: relative; overflow: hidden;" data-screen-label="12 404">
+    <Atmosphere />
+    <div class="relative z-3 text-center reveal-stagger" style="max-width: 720px;">
+      <div class="display-xl" style="font-size: clamp(120px,22vw,320px); line-height: 0.8; background: linear-gradient(180deg, var(--text) 0%, color-mix(in oklab, var(--text) 25%, transparent) 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">404</div>
+      <h1 class="display" style="margin: 28px 0 20px;">A page that didn't make the cut.</h1>
+      <p class="lede" style="margin: 0 auto 36px; max-width: 48ch;">
+        Either the page moved, the link is older than expected, or it was retired because it stopped being useful.
+      </p>
+      <div class="flex gap-md" style="justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn-primary">Back to home →</a>
+        <a href="/writing" class="btn">Read something instead</a>
+      </div>
+    </div>
+  </section>
 </Base>
-
-<style>
-	.not-found {
-		text-align: center;
-		padding: var(--spacing-24) var(--spacing-6);
-	}
-
-	.not-found h1 {
-		font-size: var(--font-size-5xl);
-		margin-bottom: var(--spacing-2);
-		color: var(--color-border);
-	}
-
-	.not-found p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.not-found a {
-		color: var(--color-text);
-	}
-</style>

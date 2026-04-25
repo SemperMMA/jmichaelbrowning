@@ -1,48 +1,48 @@
 ---
-import { SITE } from '@lib/site';
-const { title, description, image, canonical, noindex } = Astro.props as {
+// SEO.astro — drop into <head>
+import { SITE } from '../lib/site';
+
+interface Props {
   title?: string;
   description?: string;
   image?: string;
   canonical?: string;
   noindex?: boolean;
-};
+}
 
-const fullTitle = title ? `${title} — ${SITE.title}` : `${SITE.title} — Strategy, systems, execution`;
-const desc = description ?? SITE.description;
-const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE.url).toString();
-const ogImage = image ?? `${SITE.url}/og-default.png`;
+const { title, description, image, canonical, noindex = false } = Astro.props;
+
+const fullTitle  = title ? `${title} — ${SITE.title}` : `${SITE.title} — Strategy, systems, execution`;
+const desc       = description ?? SITE.description;
+const pageURL    = canonical ?? new URL(Astro.url.pathname, SITE.url).toString();
+const ogImage    = image ?? `${SITE.url}/og-default.png`;
 ---
 <title>{fullTitle}</title>
 <meta name="description" content={desc} />
-<link rel="canonical" href={canonicalURL} />
-{noindex && <meta name="robots" content="noindex" />}
+<link rel="canonical" href={pageURL} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
 
-<!-- Open Graph -->
-<meta property="og:type" content="website" />
-<meta property="og:title" content={fullTitle} />
+<meta property="og:type"        content="website" />
+<meta property="og:title"       content={fullTitle} />
 <meta property="og:description" content={desc} />
-<meta property="og:url" content={canonicalURL} />
-<meta property="og:image" content={ogImage} />
-<meta property="og:site_name" content={SITE.title} />
+<meta property="og:url"         content={pageURL} />
+<meta property="og:image"       content={ogImage} />
+<meta property="og:site_name"   content={SITE.title} />
 
-<!-- Twitter / X -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content={fullTitle} />
 <meta name="twitter:description" content={desc} />
-<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image"       content={ogImage} />
 
-<!-- Favicons + theme -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)" />
-<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
 
-<!-- JSON-LD -->
 <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: SITE.author,
   url: SITE.url,
   email: SITE.email,
-  sameAs: Object.values(SITE.social)
+  sameAs: Object.values(SITE.social),
 })}></script>

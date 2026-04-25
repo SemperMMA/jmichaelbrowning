@@ -1,27 +1,46 @@
 ---
+// Project.astro — case study layout.
 import Base from './Base.astro';
-import MediaFrame from '@components/MediaFrame.astro';
-import Atmosphere from '@components/Atmosphere.astro';
+import Atmosphere from '../components/Atmosphere.astro';
 
-const { frontmatter } = Astro.props;
-const { title, summary, category, role, stack = [], year, duration, cover, coverAlt, outcomes = [] } = frontmatter;
+interface Outcome { stat: string; label: string; }
+
+interface Props {
+  title: string;
+  summary?: string;
+  category?: string;
+  role?: string;
+  stack?: string[];
+  year?: string;
+  duration?: string;
+  outcomes?: Outcome[];
+  coverAlt?: string;
+}
+
+const {
+  title, summary, category, role, stack = [],
+  year, duration, outcomes = [], coverAlt = 'Hero capture',
+} = Astro.props;
 ---
-<Base title={title} description={summary}>
+<Base {title} description={summary}>
   <section class="section-lg relative grain" style="padding-top: 200px; padding-bottom: 60px;">
     <Atmosphere />
     <div class="wrap relative z-3">
       <div class="reveal-stagger">
         <a href="/work" class="mono" style="color: var(--text-dim); display: inline-block; margin-bottom: 24px;">← All work</a>
-        <span class="eyebrow">Case study · {category} · {year}</span>
+        {category && year && <span class="eyebrow">Case study · {category} · {year}</span>}
         <h1 class="display-lg" style="margin: 28px 0 28px; max-width: 18ch;">{title}</h1>
-        <p class="lede" style="max-width: 64ch;">{summary}</p>
+        {summary && <p class="lede" style="max-width: 64ch;">{summary}</p>}
       </div>
     </div>
   </section>
 
   <section style="margin: 40px 0;">
     <div class="wrap">
-      <MediaFrame variant="wide" label={coverAlt || 'Hero'} />
+      <div class="media-frame wide reveal" style="aspect-ratio: 21/9; max-height: 70vh;">
+        <div class="placeholder-stripes"></div>
+        <span class="label">{coverAlt}</span>
+      </div>
     </div>
   </section>
 
@@ -31,21 +50,22 @@ const { title, summary, category, role, stack = [], year, duration, cover, cover
         <aside class="reveal" style="position: sticky; top: 120px;">
           <h4 class="mono" style="color: var(--text-dim); margin: 0 0 18px; text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px;">Project</h4>
           <dl style="margin: 0; display: grid; gap: 18px;">
-            <div><dt class="mono" style="color: var(--text-dim);">Role</dt><dd style="margin: 4px 0 0;">{role}</dd></div>
-            <div><dt class="mono" style="color: var(--text-dim);">Year</dt><dd style="margin: 4px 0 0;">{year}</dd></div>
-            {duration && <div><dt class="mono" style="color: var(--text-dim);">Duration</dt><dd style="margin: 4px 0 0;">{duration}</dd></div>}
-            {stack.length > 0 && <div><dt class="mono" style="color: var(--text-dim);">Stack</dt><dd style="margin: 4px 0 0;">{stack.join(' · ')}</dd></div>}
+            {role     && <div><dt class="mono" style="color:var(--text-dim);">Role</dt><dd style="margin:4px 0 0;">{role}</dd></div>}
+            {year     && <div><dt class="mono" style="color:var(--text-dim);">Year</dt><dd style="margin:4px 0 0;">{year}</dd></div>}
+            {duration && <div><dt class="mono" style="color:var(--text-dim);">Duration</dt><dd style="margin:4px 0 0;">{duration}</dd></div>}
+            {stack.length > 0 && <div><dt class="mono" style="color:var(--text-dim);">Stack</dt><dd style="margin:4px 0 0;">{stack.join(' · ')}</dd></div>}
           </dl>
         </aside>
+
         <article class="reveal">
           <div class="prose" style="margin: 0;"><slot /></div>
           {outcomes.length > 0 && (
             <>
               <hr class="hr" style="margin: 80px 0 40px;" />
               <div class="grid-3">
-                {outcomes.map((o: any) => (
+                {outcomes.map(o => (
                   <div>
-                    <div class="display" style="font-size: clamp(40px, 5vw, 72px); color: var(--accent);">{o.stat}</div>
+                    <div class="display" style="font-size: clamp(40px,5vw,72px); color: var(--accent);">{o.stat}</div>
                     <p class="text-mute" style="margin: 8px 0 0; font-size: 14px;">{o.label}</p>
                   </div>
                 ))}

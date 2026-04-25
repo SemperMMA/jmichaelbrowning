@@ -1,36 +1,41 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
+  // Cloudflare Workers / Pages configuration for jmichaelbrowning.com
+  // EmDash on Cloudflare requires D1 (database) + R2 (media storage).
+  //
+  // SETUP — run these commands ONCE before first deploy:
+  //   wrangler d1 create jmb-db
+  //   wrangler r2 bucket create jmb-media
+  // Then paste the returned database_id below.
+  //
   "name": "jmichaelbrowning",
-  "main": "./src/worker.ts",
-  "compatibility_date": "2026-02-24",
+  "compatibility_date": "2025-04-01",
   "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
 
-  "routes": [
-    {
-      "pattern": "jmichaelbrowning.com",
-      "custom_domain": true
-    }
-  ],
+  "vars": {
+    "SITE_URL": "https://jmichaelbrowning.com",
+    "EMDASH_ADMIN_EMAIL": "hello@jmichaelbrowning.com"
+  },
 
   "d1_databases": [
     {
+      // binding name MUST match databaseBinding in astro.config.mjs
       "binding": "DB",
-      "database_name": "jmb-database",
+      "database_name": "jmb-db",
+      // REPLACE with the ID returned by: wrangler d1 create jmb-db
       "database_id": "69120c26-ffe4-4087-8a5d-75107f30de8a"
     }
   ],
 
   "r2_buckets": [
     {
+      // binding name MUST match storageBinding in astro.config.mjs
       "binding": "MEDIA",
-      "bucket_name": "jmb-media",
-      "preview_bucket_name": "jmb-media"
+      "bucket_name": "jmb-media"
     }
   ],
 
-  "worker_loaders": [
-    {
-      "binding": "LOADER"
-    }
-  ]
+  "observability": {
+    "enabled": true
+  }
 }

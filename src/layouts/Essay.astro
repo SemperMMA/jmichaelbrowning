@@ -1,33 +1,50 @@
 ---
+// Essay.astro — layout for long-form writing entries.
 import Base from './Base.astro';
-import MediaFrame from '@components/MediaFrame.astro';
+import Atmosphere from '../components/Atmosphere.astro';
 
-const { frontmatter } = Astro.props;
-const { title, summary, category, publishedAt, readingTime, tags = [], cover, coverAlt } = frontmatter;
-const date = new Date(publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+interface Props {
+  title: string;
+  summary?: string;
+  category?: string;
+  publishedAt?: string | Date;
+  readingTime?: number;
+  tags?: string[];
+}
+
+const { title, summary, category = 'Essay', publishedAt, readingTime, tags = [] } = Astro.props;
+const date = publishedAt
+  ? new Date(publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  : '';
 ---
-<Base title={title} description={summary}>
+<Base {title} description={summary}>
   <section class="section-lg relative grain" style="padding-top: 200px; padding-bottom: 60px;">
+    <Atmosphere />
     <div class="wrap-narrow relative z-3">
       <div class="reveal-stagger text-center">
         <a href="/writing" class="mono" style="color: var(--text-dim); display: inline-block; margin-bottom: 28px;">← All writing</a>
-        <span class="eyebrow no-mark">{category}{readingTime ? ` · ${readingTime} min read` : ''}</span>
+        <span class="eyebrow no-mark">
+          {category}{readingTime ? ` · ${readingTime} min read` : ''}
+        </span>
         <h1 class="display-lg" style="margin: 28px 0 28px;">{title}</h1>
-        <p class="lede">{summary}</p>
-        <div class="flex gap-md mt-md" style="justify-content: center;">
-          <span class="mono">By J. Michael Browning · {date}</span>
-        </div>
+        {summary && <p class="lede">{summary}</p>}
+        {date && (
+          <div class="flex gap-md mt-md" style="justify-content: center; align-items: center;">
+            <span class="mono">By J. Michael Browning · {date}</span>
+          </div>
+        )}
       </div>
     </div>
   </section>
 
-  {cover && (
-    <section style="margin: 40px 0 80px;">
-      <div class="wrap">
-        <MediaFrame variant="wide" label={coverAlt || 'Cover'} />
+  <section style="margin: 40px 0 80px;">
+    <div class="wrap">
+      <div class="media-frame wide reveal" style="aspect-ratio: 21/9; max-height: 60vh;">
+        <div class="placeholder-stripes"></div>
+        <span class="label">Cover image</span>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
   <section style="padding-bottom: 120px;">
     <div class="wrap-narrow">
@@ -35,9 +52,11 @@ const date = new Date(publishedAt).toLocaleDateString('en-US', { month: 'long', 
         <slot />
       </article>
       <hr class="hr" style="margin: 80px 0 32px;" />
-      <div class="flex-between" style="font-family: var(--mono-font); font-size: 12px; color: var(--text-dim);">
-        <span>Filed under: {tags.join(' · ')}</span>
-      </div>
+      {tags.length > 0 && (
+        <div class="flex-between reveal" style="font-family: var(--mono-font); font-size: 12px; color: var(--text-dim);">
+          <span>Filed under: {tags.join(' · ')}</span>
+        </div>
+      )}
     </div>
   </section>
 </Base>

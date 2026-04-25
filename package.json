@@ -1,42 +1,37 @@
 {
-	"name": "jmichaelbrowning",
-	"version": "0.0.3",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"deploy": "astro build && wrangler deploy",
-		"typecheck": "astro check",
-		"bootstrap": "emdash init && emdash seed",
-		"seed": "emdash seed"
-	},
-	"dependencies": {
-		"@astrojs/cloudflare": "^13.1.7",
-    	"@astrojs/mdx": "^4.0.0",
-    	"@astrojs/tailwind": "^5.1.0",
-    	"tailwindcss": "^3.4.0",
-    	"@astrojs/sitemap": "^3.2.0",
-		"@astrojs/react": "^5.0.0",
-		"@emdash-cms/cloudflare": "^0.4.0",
-		"@emdash-cms/plugin-forms": "^0.1.1",
-		"@emdash-cms/plugin-webhook-notifier": "^0.1.2",
-		"astro": "^6.0.1",
-		"emdash": "^0.4.0",
-		"react": "19.2.4",
-		"react-dom": "19.2.4"
-	},
-	"devDependencies": {
-		"@astrojs/check": "^0.9.7",
-		"@cloudflare/workers-types": "^4.20260305.1",
-    	"typescript": "^5.6.0",
-		"wrangler": "^4.80.0"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"workerd"
-		]
-	}
+  "name": "jmichaelbrowning",
+  "type": "module",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Personal site for J. Michael Browning — EmDash + Astro + Cloudflare D1/R2",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "wrangler pages dev ./dist",
+    "deploy": "wrangler pages deploy ./dist",
+    "bootstrap": "wrangler d1 execute jmb-db --local --file=./scripts/seed.sql && astro dev",
+    "seed:remote": "wrangler d1 execute jmb-db --file=./scripts/seed.sql",
+    "types": "emdash types",
+    "typecheck": "astro check && tsc --noEmit",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^11.0.0",
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.0.0",
+    "emdash": "^0.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "@cloudflare/workers-types": "^4.20250422.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "wrangler": "^3.80.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0"
 }

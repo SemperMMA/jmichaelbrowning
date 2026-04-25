@@ -1,11 +1,16 @@
 ---
-import { NAV, SIDE_NAV, SITE } from '@lib/site';
+import { NAV, SIDE_NAV, SITE } from '../lib/site';
 ---
-<nav id="menu-overlay" class="menu-overlay" aria-hidden="true">
+<nav id="menu-overlay" class="menu-overlay" aria-hidden="true" role="navigation">
   <div class="menu-grid">
     <ul class="menu-list" role="list">
       {NAV.map(p => (
-        <li><a href={p.href}><span>{p.label}</span><span class="num">{p.num}</span></a></li>
+        <li>
+          <a href={p.href}>
+            <span>{p.label}</span>
+            <span class="num">{p.num}</span>
+          </a>
+        </li>
       ))}
     </ul>
     <div class="menu-side">
@@ -16,9 +21,9 @@ import { NAV, SIDE_NAV, SITE } from '@lib/site';
       <h4>Connect</h4>
       <ul>
         <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-        <li><a href={SITE.social.linkedin}>LinkedIn</a></li>
-        <li><a href={SITE.social.github}>GitHub</a></li>
-        <li><a href={SITE.social.substack}>Substack</a></li>
+        <li><a href={SITE.social.linkedin} rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href={SITE.social.github}   rel="noopener noreferrer">GitHub</a></li>
+        <li><a href={SITE.social.substack} rel="noopener noreferrer">Substack</a></li>
       </ul>
     </div>
   </div>
@@ -29,10 +34,11 @@ import { NAV, SIDE_NAV, SITE } from '@lib/site';
 </nav>
 
 <script>
-  const btn = document.getElementById('menu-btn')!;
+  const btn     = document.getElementById('menu-btn')!;
   const overlay = document.getElementById('menu-overlay')!;
-  const label = document.getElementById('menu-label')!;
+  const label   = document.getElementById('menu-label')!;
   let open = false;
+
   function set(o: boolean) {
     open = o;
     overlay.classList.toggle('open', o);
@@ -42,6 +48,7 @@ import { NAV, SIDE_NAV, SITE } from '@lib/site';
     label.textContent = o ? 'Close' : 'Menu';
     document.body.style.overflow = o ? 'hidden' : '';
   }
+
   btn.addEventListener('click', () => set(!open));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) set(false); });
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));

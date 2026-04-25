@@ -1,10 +1,19 @@
 ---
+// Page.astro — standard interior page wrapper with hero section.
 import Base from './Base.astro';
-import Atmosphere from '@components/Atmosphere.astro';
+import Atmosphere from '../components/Atmosphere.astro';
 
-const { title, description, eyebrow, lede } = Astro.props;
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow?: string;
+  lede?: string;
+  noindex?: boolean;
+}
+
+const { title, description, eyebrow, lede, noindex } = Astro.props;
 ---
-<Base {title} {description}>
+<Base {title} {description} {noindex}>
   <section class="section-lg relative grain" style="padding-top: 200px;">
     <Atmosphere />
     <div class="wrap relative z-3">

@@ -1,28 +1,41 @@
 ---
-import Page from '@layouts/Page.astro';
-import { getCollection } from 'astro:content';
+// src/pages/writing/index.astro
+import Page from '../../layouts/Page.astro';
+import { getEmDashCollection } from 'emdash';
 
-const writing = (await getCollection('writing', ({ data }) => !data.draft))
-  .sort((a, b) => +new Date(b.data.publishedAt) - +new Date(a.data.publishedAt));
+const { entries: writing } = await getEmDashCollection('writing', {
+  orderBy: [{ field: 'published_at', direction: 'desc' }],
+  filter: { status: 'published' },
+});
 ---
 <Page
   title="Things I'm trying to be useful about."
   eyebrow="Writing · field notes & essays"
   lede="The discipline of writing publicly is how I stay honest with myself about the work."
 >
-  <section class="section">
+  <section class="section" data-screen-label="05 Writing — Index">
     <div class="wrap">
       <div class="reveal-stagger">
-        {writing.map(e => (
+        {writing.length > 0 ? writing.map(e => (
           <a class="essay-card" href={`/writing/${e.slug}`}>
             <div>
-              <span class="meta">{e.data.category} · {e.data.readingTime ? `${e.data.readingTime} min · ` : ''}{new Date(e.data.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              <span class="meta">
+                {e.data.category}
+                {e.data.reading_time ? ` · ${e.data.reading_time} min` : ''}
+                {e.data.published_at
+                  ? ` · ${new Date(e.data.published_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
+                  : ''}
+              </span>
               <h2 class="essay-title">{e.data.title}</h2>
               <p class="essay-excerpt">{e.data.summary}</p>
             </div>
             <div class="thumb"><div class="placeholder-stripes"></div></div>
           </a>
-        ))}
+        )) : (
+          <p class="text-mute" style="padding: 48px 0;">
+            No essays yet. Add them at <a href="/_emdash/admin">/_emdash/admin</a> → Writing.
+          </p>
+        )}
       </div>
     </div>
   </section>

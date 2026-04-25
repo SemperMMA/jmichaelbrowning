@@ -1,15 +1,33 @@
 ---
-import Essay from '@layouts/Essay.astro';
-import { getCollection } from 'astro:content';
+// src/pages/writing/[slug].astro
+// SSR — fetched live from D1.
+import Essay from '../../layouts/Essay.astro';
+import { getEmDashEntry } from 'emdash';
 
-export async function getStaticPaths() {
-  const all = await getCollection('writing', ({ data }) => !data.draft);
-  return all.map(entry => ({ params: { slug: entry.slug }, props: { entry } }));
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/writing');
+
+let entry;
+try {
+  entry = await getEmDashEntry('writing', slug);
+} catch {
+  return Astro.redirect('/writing');
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+if (!entry) return Astro.redirect('/404');
+
+const {
+  title, summary, category, published_at,
+  reading_time, tags = [], body,
+} = entry.data;
 ---
-<Essay frontmatter={entry.data}>
-  <Content />
+<Essay
+  {title}
+  {summary}
+  {category}
+  publishedAt={published_at}
+  readingTime={reading_time}
+  tags={Array.isArray(tags) ? tags : tags?.split(',').map((t: string) => t.trim())}
+>
+  <Fragment set:html={body ?? '<p>No content yet.</p>'} />
 </Essay>

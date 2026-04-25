@@ -1,58 +1,43 @@
-import path from "node:path";
-import cloudflare from "@astrojs/cloudflare";
-import react from "@astrojs/react";
-import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
-import { formsPlugin } from "@emdash-cms/plugin-forms";
-import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
-import { defineConfig, fontProviders } from "astro/config";
-import emdash from "emdash/astro";
+// @ts-check
+import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import emdash from 'emdash/astro';
+import { d1 } from 'emdash/db';
 
 export default defineConfig({
-	output: "server",
-	adapter: cloudflare(),
-	image: {
-		layout: "constrained",
-		responsiveStyles: true,
-	},
-	integrations: [
-		react(),
-		emdash({
-			database: d1({ binding: "DB", session: "auto" }),
-			storage: r2({ binding: "MEDIA" }),
-			plugins: [formsPlugin()],
-			sandboxed: [webhookNotifierPlugin()],
-			sandboxRunner: sandbox(),
-			marketplace: "https://marketplace.emdashcms.com",
-		}),
-	],
-	vite: {
-		resolve: {
-			alias: {
-				"@": path.resolve("./src"),
-				"@components": path.resolve("./src/components"),
-				"@layouts": path.resolve("./src/layouts"),
-				"@content": path.resolve("./src/content"),
-				"@lib": path.resolve("./src/lib"),
-				"@styles": path.resolve("./src/styles"),
-				"@utils": path.resolve("./src/utils"),
-			},
-		},
-	},
-	fonts: [
-		{
-			provider: fontProviders.google(),
-			name: "Inter",
-			cssVariable: "--font-sans",
-			weights: [400, 500, 600, 700],
-			fallbacks: ["sans-serif"],
-		},
-		{
-			provider: fontProviders.google(),
-			name: "JetBrains Mono",
-			cssVariable: "--font-mono",
-			weights: [400, 500],
-			fallbacks: ["monospace"],
-		},
-	],
-	devToolbar: { enabled: false },
+  site: 'https://jmichaelbrowning.com',
+
+  // EmDash requires SSR — content is served live from D1, not pre-rendered.
+  // Pages that don't need the database can be prerendered individually
+  // using: export const prerender = true; at the top of any .astro file.
+  output: 'server',
+
+  adapter: cloudflare({
+    platformProxy: { enabled: true },
+    imageService: 'compile'
+  }),
+
+  integrations: [
+    emdash({
+      database: d1(),
+      // The D1 binding name must match wrangler.jsonc [[d1_databases]] → binding
+      databaseBinding: 'DB',
+      // The R2 binding name must match wrangler.jsonc [[r2_buckets]] → binding
+      storageBinding: 'MEDIA',
+    }),
+    mdx(),
+    sitemap()
+  ],
+
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover'
+  },
+
+  vite: {
+    build: { cssMinify: 'lightningcss' },
+    ssr: { external: ['node:buffer', 'node:path', 'node:fs', 'node:crypto'] }
+  }
 });
